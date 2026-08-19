@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "rules": [
+    {
+      "domain_suffix": [
+        "instagram.com",
+        "cdninstagram.com",
+        "igcdn.com",
+        "ig.me",
+        "igtv.com",
+        "igsonar.com",
+        "instagram-brand.com",
+        "instagram-engineering.com",
+        "instagram-help.com",
+        "instagram-press.com",
+        "instagram-press.net"
+      ]
+    }
+  ]
+}
