@@ -28,10 +28,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- telegramip.json; then
+
+          # 先 add，再用 --cached 对比暂存区，这样新文件（首次运行）也能被正确识别为“有变化”
+          git add telegramip.json
+          if git diff --cached --quiet; then
             echo "No changes to telegramip.json, skipping commit."
           else
-            git add telegramip.json
             git commit -m "chore: 更新 telegramip.json ($(date -u +'%Y-%m-%d'))"
             git push
           fi
