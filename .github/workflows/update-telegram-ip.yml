@@ -1,0 +1,37 @@
+name: Update Telegram IP List
+
+on:
+  schedule:
+    # 每天 UTC 00:10 运行（北京时间 08:10）
+    - cron: "10 0 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Generate telegramip.json
+        run: python scripts/update_telegram_ip.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- telegramip.json; then
+            echo "No changes to telegramip.json, skipping commit."
+          else
+            git add telegramip.json
+            git commit -m "chore: 更新 telegramip.json ($(date -u +'%Y-%m-%d'))"
+            git push
+          fi
